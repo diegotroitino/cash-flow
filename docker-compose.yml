@@ -1,11 +1,20 @@
 version: "2"
 
 services:
+  mysql:
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret_password
+      - MYSQL_DATABASE=cashflowdb
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+
   api:
     build:
       context: api
     depends_on:
       - kafka
+      - mysql
     ports:
       - '3000:3000'
       
@@ -14,6 +23,7 @@ services:
       context: transaction-consumer
     depends_on:
       - kafka
+      - mysql
 
   zookeeper:
     image: confluentinc/cp-zookeeper:latest

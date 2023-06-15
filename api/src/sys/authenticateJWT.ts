@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import jwt from 'jsonwebtoken';
 import { JWT_SECRET_KEY } from "./config";
 
-// Configuração do JWT
+// TODO not used yet, JWT authentication
 export default (req: Request, res: Response, next: () => void) => {
     const token = req.headers.authorization;
     if (token) {

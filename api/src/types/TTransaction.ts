@@ -3,6 +3,11 @@ export type TTransaction =
     type: TTransactionType,
     amount: number,
     description?: string,
-    user_id: string
+    user_id: string, 
+    date: Date
 }
-export type TTransactionType = 'CREDIT' | 'DEBIT';
+export enum TTransactionType 
+ {
+    CREDIT = 'CREDIT',
+    DEBIT = 'DEBIT'
+ }

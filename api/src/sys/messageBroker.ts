@@ -1,5 +1,5 @@
 import { Kafka } from 'kafkajs';
-import { MESSAGE_BROKER_HOST } from '../sys/config';
+import { MESSAGE_BROKER_HOST } from './config';
 
 const kafka = new Kafka({ brokers: [MESSAGE_BROKER_HOST], clientId: 'cash-flow' });
 
@@ -24,7 +24,7 @@ export const produce = async (data: any, topic: string): Promise<TProduceResult>
     return await producer.send(payload)
         .then(response => {
             if (response[0].errorCode > 0) {
-                console.log('Error to send message to broker', response);
+                console.error('Error to send message to broker', response);
                 return { success: false, error: 'Error to send message to broker' };
             }
             else {

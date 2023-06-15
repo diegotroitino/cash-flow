@@ -1,9 +1,7 @@
-import express, { Request, Response } from 'express'
-import { createTransaction } from '../service/transaction';
-import authenticateJWT from '../sys/authenticateJWT';
+import express, { Response } from 'express'
+import { createTransaction } from '../service/commands/transaction';
 import { TTransactionType } from '../types/TTransaction';
 import { TypedRequestBody } from '../types/TypedRequestBody';
-
 
 const routerTransactions = express.Router()
 
@@ -15,7 +13,6 @@ export type TTransactionRequestBody = {
     description: string
 }
 
-// Rota para criar uma transação
 routerTransactions.post('/transactions', async (req: TypedRequestBody<TTransactionRequestBody>, res: Response) => {
     const { type, amount, description } = req.body;
     //const userId = req.user.id;
@@ -27,6 +24,7 @@ routerTransactions.post('/transactions', async (req: TypedRequestBody<TTransacti
             amount,
             description,
             user_id: '001',
+            date: new Date()
         };
 
         const result = await createTransaction(transaction);
@@ -35,7 +33,7 @@ routerTransactions.post('/transactions', async (req: TypedRequestBody<TTransacti
             res.status(500).json({ success: false, error: result.error });
         else
             res.json({ success: true });
-            
+
     } catch (error) {
         res.status(500).json({ success: false, error })
     }
